@@ -41,17 +41,6 @@ services:
       - .env
     volumes:
       - certs:/opt/logstash/config/certs/
-  elastalert:
-    depends_on: 
-      logstash:
-        condition: "service_healthy"
-    build: elastalert
-    image: elastalert:latest
-    container_name: elastalert
-    env_file:
-      - .env
-    volumes:
-      - certs:/opt/elastalert/certs/
 volumes:
   certs:
     name: certs
