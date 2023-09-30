@@ -3,7 +3,7 @@
 
 # Kibana-specific settings
 server:
-  host: "0.0.0.0"
+  host: "localhost"
 
 # Kibana-to-Elasticsearch communication
 elasticsearch:
@@ -12,5 +12,5 @@ elasticsearch:
     certificateAuthorities: config/ca.crt
     certificate: config/certs/kibana.crt
     key: config/certs/kibana.key
-  username: "kibana_system" # TODO: replace with an .env var
-  password: "kibana"        # TODO: replace with an .env var
+  username: "${ELASTICSEARCH_USERNAME}"
+  password: "${ELASTICSEARCH_PASSWORD}"

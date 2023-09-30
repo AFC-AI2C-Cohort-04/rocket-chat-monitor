@@ -13,5 +13,10 @@ cd rocket-chat-monitor
 docker compose up 
 ```
 
+**Step 3.** Open Kibana.
+```
+https://localhost:5601
+```
+
 ## Copyright
 This project is licensed under the terms of the [MIT license](/LICENSE).
