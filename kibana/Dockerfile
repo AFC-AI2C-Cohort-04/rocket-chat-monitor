@@ -6,7 +6,7 @@ LABEL Author="Victor Fernandez III, @cyberphor"
 COPY . .
 
 # Set the Kibana service account password and start Kibana
-CMD curl -X POST https://172.16.0.10:9200/_security/user/kibana_system/_password \
+CMD curl -X POST https://localhost:9200/_security/user/kibana_system/_password \
     --cacert config/certs/ca.crt \
     -u "elastic:elasticsearch" \
     -H "Content-Type: application/json" \
