@@ -1,4 +1,4 @@
 instances:
 - name: "elasticsearch"
-- name: "logstash"
 - name: "kibana"
+- name: "logstash"

@@ -12,5 +12,5 @@ elasticsearch:
     certificateAuthorities: config/ca.crt
     certificate: config/certs/kibana.crt
     key: config/certs/kibana.key
-  username: "kibana_system"
-  password: "kibana"
+  username: "kibana_system" # TODO: replace with an .env var
+  password: "kibana"        # TODO: replace with an .env var
