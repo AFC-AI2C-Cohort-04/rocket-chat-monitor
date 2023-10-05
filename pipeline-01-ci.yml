@@ -1,7 +1,3 @@
-# Docker
-# Build and push an image to Azure Container Registry
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
 - main
 
@@ -9,10 +5,10 @@ resources:
 - repo: self
 
 variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '4131058a-f1d5-4ad6-a56a-e40fe16303e5'
-  imageRepository: 'rocketchatmonitor'
-  containerRegistry: 'ai2ccohort04rcmregistry.azurecr.io'
+  # Azure subscription and ACR details
+  azureSubscriptionEndpoint: '4131058a-f1d5-4ad6-a56a-e40fe16303e5'
+  acrResourceGroup: 'ai2c-cohort-04-rocket-chat-resource-group'
+  acrRegistry: 'ai2ccohort04rcmregistry'
   dockerfilePath: '$(Build.SourcesDirectory)/elasticsearch/Dockerfile'
   tag: '$(Build.BuildId)'
 
@@ -21,19 +17,75 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build and push stage
+  displayName: 'Build Docker Image'
   jobs:
   - job: Build
-    displayName: Build
+    displayName: 'Build'
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
+    - task: UsePythonVersion@0
       inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
+        versionSpec: '3.x'
+        addToPath: true
+
+    - task: Docker@2
+      displayName: 'Build Docker Image'
+      inputs:
+        command: 'build'
+        repository: $(acrRegistry)/$(imageRepository)
         dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+
+- stage: Release
+  displayName: 'Release Docker Image'
+  dependsOn: Build
+  jobs:
+  - job: Release
+    displayName: 'Release'
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.x'
+        addToPath: true
+
+    - task: Docker@2
+      displayName: 'Push Docker Image to ACR'
+      inputs:
+        command: 'push'
+        repository: $(acrRegistry)/$(imageRepository)
+        tags: |
+          $(tag)
+
+- stage: Deploy
+  displayName: 'Deploy using Terraform'
+  dependsOn: Release
+  jobs:
+  - job: Deploy
+    displayName: 'Deploy'
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.x'
+        addToPath: true
+    
+    - script: |
+        #!/bin/bash
+        set -e
+        cd TerraformFolder # Path to your Terraform configuration
+        
+        # Authenticate to Azure
+        az login --service-principal -u $(servicePrincipalId) -p $(servicePrincipalKey) --tenant $(tenantId)
+        az account set --subscription $(subscriptionId)
+
+        # Initialize Terraform
+        terraform init
+
+        # Apply Terraform changes
+        terraform apply -auto-approve
+      displayName: 'Deploy with Terraform'
