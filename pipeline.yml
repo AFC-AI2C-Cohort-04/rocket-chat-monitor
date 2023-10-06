@@ -20,8 +20,8 @@ variables:
 stages:
 - stage: Build
   jobs:
-  - job: "Build_Elasticsearch"
-    displayName: "Build Elasticsearch"
+  - job: Build
+    displayName: Build Elasticsearch
     steps:
     - task: Docker@2
       inputs:
@@ -34,8 +34,8 @@ stages:
 
 - stage: Push
   jobs:
-  - job: "Push_Elasticsearch"
-    displayName: "Push Elasticsearch"
+  - job: Push
+    displayName: Push Elasticsearch
     steps:
     - task: Docker@2
       inputs:
@@ -46,8 +46,8 @@ stages:
 
 - stage: Deploy
   jobs:
-  - job: "Deploy_Elasticsearch"
-    displayName: "Deploy Elasticsearch"
+  - job: Deploy
+    displayName: Deploy Elasticsearch
     steps:
     - script: |
         #!/bin/bash
