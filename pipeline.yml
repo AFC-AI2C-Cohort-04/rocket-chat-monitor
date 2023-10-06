@@ -11,7 +11,7 @@ variables:
   acrRegistry: 'ai2ccohort04rcmregistry'
   imageRepository: 'rocketchatmonitor'
   dockerfilePath: '$(Build.SourcesDirectory)/elasticsearch/Dockerfile'
-  tag: '$(Build.BuildId)'
+  tag: '123'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
