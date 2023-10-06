@@ -1,8 +1,13 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
 trigger:
 - main
 
-resources:
-- repo: self
+pool:
+  vmImage: ubuntu-latest
 
 variables:
   azureSubscriptionEndpoint: '4131058a-f1d5-4ad6-a56a-e40fe16303e5'
@@ -10,20 +15,14 @@ variables:
   acrRegistry: 'ai2ccohort04rcmregistry'
   imageRepository: 'rocketchatmonitor'
   dockerfilePath: '$(Build.SourcesDirectory)/elasticsearch/Dockerfile'
-  tag: '123'
-  vmImageName: 'ubuntu-latest'
+  tag: '$(Build.BuildId)'
 
 stages:
 - stage: Build
-  displayName: Build and push stage
-  jobs:  
-  - job: Build
-    displayName: Build job
-    pool:
-      vmImage: $(vmImageName)
+  jobs:
+  - job: Build Elasticsearch
     steps:
     - task: Docker@2
-      displayName: Build and push an image to container registry
       inputs:
         command: buildAndPush
         repository: $(imageRepository)
@@ -32,22 +31,11 @@ stages:
         tags: |
           $(tag)
 
-- stage: Release
-  displayName: 'Release Docker Image'
-  dependsOn: Build
+- stage: Push
   jobs:
-  - job: Release
-    displayName: 'Release'
-    pool:
-      vmImage: $(vmImageName)
+  - job: Push Elasticsearch
     steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.x'
-        addToPath: true
-
     - task: Docker@2
-      displayName: 'Push Docker Image to ACR'
       inputs:
         command: 'push'
         repository: $(acrRegistry)/$(imageRepository)
@@ -55,18 +43,9 @@ stages:
           $(tag)
 
 - stage: Deploy
-  displayName: 'Deploy using Terraform'
-  dependsOn: Release
   jobs:
-  - job: Deploy
-    displayName: 'Deploy'
-    pool:
-      vmImage: $(vmImageName)
+  - job: Deploy Elasticsearch
     steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.x'
-        addToPath: true
     - script: |
         #!/bin/bash
         set -e
@@ -81,4 +60,4 @@ stages:
 
         # Apply Terraform changes
         terraform apply -auto-approve
-      displayName: 'Deploy with Terraform'
+      displayName: Deploy
