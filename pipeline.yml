@@ -29,7 +29,6 @@ stages:
       inputs:
         versionSpec: '3.x'
         addToPath: true
-
     - task: Docker@2
       displayName: 'Build Docker Image'
       inputs:
