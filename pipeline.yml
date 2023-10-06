@@ -67,7 +67,6 @@ stages:
       inputs:
         versionSpec: '3.x'
         addToPath: true
-    
     - script: |
         #!/bin/bash
         set -e
