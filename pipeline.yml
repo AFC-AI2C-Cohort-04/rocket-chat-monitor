@@ -5,15 +5,12 @@ resources:
 - repo: self
 
 variables:
-  # Azure subscription and ACR details
   azureSubscriptionEndpoint: '4131058a-f1d5-4ad6-a56a-e40fe16303e5'
   acrResourceGroup: 'ai2c-cohort-04-rocket-chat-resource-group'
   acrRegistry: 'ai2ccohort04rcmregistry'
   imageRepository: 'rocketchatmonitor'
   dockerfilePath: '$(Build.SourcesDirectory)/elasticsearch/Dockerfile'
   tag: '123'
-
-  # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
 stages:
