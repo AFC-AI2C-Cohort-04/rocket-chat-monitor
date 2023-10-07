@@ -7,7 +7,7 @@ pool:
 variables:
   SUBSCRIPTION_ID: "4131058a-f1d5-4ad6-a56a-e40fe16303e5"
   RESOURCE_GROUP: "ai2c-cohort-04-rocket-chat-resource-group"
-  REGISTRY_NAME: "ai2ccohort04rcmregistry01"
+  REGISTRY_NAME: "ai2ccohort04rcmregistry"
   IMAGE: "elasticsearch"
   DOCKERFILE: "$(Build.SourcesDirectory)/elasticsearch/Dockerfile"
   TAG: "$(Build.BuildId)"
