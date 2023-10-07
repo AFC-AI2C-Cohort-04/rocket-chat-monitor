@@ -28,8 +28,9 @@ stages:
         tags: |
           $(TAG)
 
-- stage: 
-  dependsOn: Push
+- stage: Push
+  displayName: Push
+  dependsOn: Build
   jobs:
   - job: Push
     displayName: Push Elasticsearch
@@ -42,6 +43,7 @@ stages:
           $(tag)
 
 - stage: Deploy
+  displayName: Deploy
   dependsOn: Push
   jobs:
   - job: Deploy
