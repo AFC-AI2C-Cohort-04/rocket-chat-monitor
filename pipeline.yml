@@ -10,7 +10,6 @@ variables:
   REGISTRY_NAME: "ai2ccohort04rcmregistry"
   IMAGE: "elasticsearch"
   DOCKERFILE: "$(Build.SourcesDirectory)/elasticsearch/Dockerfile"
-  TAG: "$(Build.BuildId)"
 
 stages:
 - stage: Build
@@ -21,12 +20,12 @@ stages:
     steps:
     - task: Docker@2
       inputs:
-        command: "buildAndPush"
+        command: "build"
         repository: "$(IMAGE)"
         dockerfile: "$(DOCKERFILE)"
         containerRegistry: "$(REGISTRY_NAME)"
         tags: |
-          $(TAG)
+          "latest"
 
 - stage: Release
   displayName: Release
@@ -40,7 +39,7 @@ stages:
         command: push
         repository: "$(REGISTRY_NAME)/$(IMAGE)"
         tags: |
-          $(tag)
+          "latest"
 
 - stage: Deploy
   displayName: Deploy
