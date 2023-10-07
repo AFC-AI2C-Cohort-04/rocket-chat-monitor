@@ -52,10 +52,12 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)'
         environmentServiceNameAzureRM: 'Personal(449b777a-56a9-4ce8-853d-7cd824d7118f)'
     - task: TerraformTaskV4@4
       displayName: Apply
       inputs:
         provider: 'azurerm'
         command: 'apply'
+        workingDirectory: '$(System.DefaultWorkingDirectory)'
         environmentServiceNameAzureRM: 'Personal(449b777a-56a9-4ce8-853d-7cd824d7118f)'
