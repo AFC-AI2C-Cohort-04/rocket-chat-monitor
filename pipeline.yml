@@ -42,9 +42,10 @@ stages:
       inputs:
         terraformVersion: 'latest'
     - task: CmdLine@2
-      displayName: Troubleshooting
+      displayName: Troubleshoot
       inputs:
         script: |
+          echo $PATH
           pwd
           ls -al
     - task: TerraformTaskV4@4
