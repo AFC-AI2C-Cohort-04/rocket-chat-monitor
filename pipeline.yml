@@ -46,7 +46,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        workingDirectory: '$(System.DefaultDirectory)'
+        workingDirectory: '$(System.DefaultDirectory)/'
         backendServiceArm: 'Personal(449b777a-56a9-4ce8-853d-7cd824d7118f)'
         backendAzureRmResourceGroupName: 'ai2c-cohort-04-rocket-chat-resource-group'
         backendAzureRmStorageAccountName: 'ai2ccohort04rcmsa'
@@ -57,13 +57,13 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'plan'
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/'
         environmentServiceNameAzureRM: 'Personal(449b777a-56a9-4ce8-853d-7cd824d7118f)'
     - task: TerraformTaskV4@4
       displayName: Apply
       inputs:
         provider: 'azurerm'
         command: 'apply'
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/'
         environmentServiceNameAzureRM: 'Personal(449b777a-56a9-4ce8-853d-7cd824d7118f)'
     
