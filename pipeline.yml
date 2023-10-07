@@ -10,7 +10,7 @@ variables:
   REGISTRY_NAME: "ai2ccohort04rcmregistry"
   IMAGE_REPOSITORY: "elasticsearch"
   DOCKERFILE: "$(Build.SourcesDirectory)/elasticsearch/Dockerfile"
-  TAG: '$(Build.BuildId)'
+  TAG: "$(Build.BuildId)"
 
 stages:
 - stage: Build
