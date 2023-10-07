@@ -18,7 +18,7 @@ stages:
   displayName: Build
   jobs:
   - job: Build
-    displayName: Build Elasticsearch
+    displayName: Elasticsearch
     steps:
     - task: Docker@2
       displayName: Build Elasticsearch
@@ -35,19 +35,20 @@ stages:
   dependsOn: Build
   jobs:
   - job: Deploy
-    displayName: Deploy Elasticsearch
+    displayName: Elasticsearch
     steps:
     - task: TerraformInstaller@1
       displayName: Install Terraform
       inputs:
         terraformVersion: 'latest'
     - task: CmdLine@2
+      displayName: Troubleshooting
       inputs:
         script: |
           pwd
           ls -al
     - task: TerraformTaskV4@4
-      displayName: Init
+      displayName: Initialize Terraform
       inputs:
         provider: 'azurerm'
         command: 'init'
@@ -58,14 +59,14 @@ stages:
         backendAzureRmContainerName: 'ai2c-cohort-04-rocket-chat-storage-container'
         backendAzureRmKey: 'terraform.tfstate'
     - task: TerraformTaskV4@4
-      displayName: Plan
+      displayName: Create Terraform Plan
       inputs:
         provider: 'azurerm'
         command: 'plan'
         workingDirectory: "$(System.DefaultDirectory)/terraform"
         environmentServiceNameAzureRM: 'Personal(449b777a-56a9-4ce8-853d-7cd824d7118f)'
     - task: TerraformTaskV4@4
-      displayName: Apply
+      displayName: Deploy Elasticsearch
       inputs:
         provider: 'azurerm'
         command: 'apply'
