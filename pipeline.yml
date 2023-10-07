@@ -37,7 +37,7 @@ stages:
   - job: Deploy
     displayName: Deploy Elasticsearch
     steps:
-    - task: TerraformInstaller@0
+    - task: TerraformInstaller@1
       displayName: Install Terraform
       inputs:
         terraformVersion: 'latest'
