@@ -44,7 +44,7 @@ stages:
 
 - stage: Deploy
   displayName: Deploy
-  dependsOn: Push
+  dependsOn: Release
   jobs:
   - job: Deploy
     displayName: Deploy Elasticsearch
