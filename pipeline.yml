@@ -21,8 +21,8 @@ stages:
     - task: Docker@2
       inputs:
         command: "build"
-        repository: "$(IMAGE)"
         dockerfile: "$(DOCKERFILE)"
+        repository: "$(IMAGE)"
         containerRegistry: "$(REGISTRY_NAME)"
         tags: |
           "latest"
@@ -37,7 +37,8 @@ stages:
     - task: Docker@2
       inputs:
         command: push
-        repository: "$(REGISTRY_NAME)/$(IMAGE)"
+        repository: "$(IMAGE)"
+        containerRegistry: "$(REGISTRY_NAME)"
         tags: |
           "latest"
 
