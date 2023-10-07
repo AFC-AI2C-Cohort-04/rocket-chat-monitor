@@ -7,8 +7,8 @@ pool:
 variables:
   SUBSCRIPTION_ID: "4131058a-f1d5-4ad6-a56a-e40fe16303e5"
   RESOURCE_GROUP: "ai2c-cohort-04-rocket-chat-resource-group"
-  REGISTRY_NAME: "ai2ccohort04rcmregistry"
-  IMAGE_REPOSITORY: "elasticsearch"
+  REGISTRY_NAME: "ai2ccohort04rcmregistry01"
+  IMAGE: "elasticsearch"
   DOCKERFILE: "$(Build.SourcesDirectory)/elasticsearch/Dockerfile"
   TAG: "$(Build.BuildId)"
 
@@ -22,23 +22,23 @@ stages:
     - task: Docker@2
       inputs:
         command: "buildAndPush"
-        repository: "$(IMAGE_REPOSITORY)"
+        repository: "$(IMAGE)"
         dockerfile: "$(DOCKERFILE)"
         containerRegistry: "$(REGISTRY_NAME)"
         tags: |
           $(TAG)
 
-- stage: Push
-  displayName: Push
+- stage: Release
+  displayName: Release
   dependsOn: Build
   jobs:
-  - job: Push
-    displayName: Push Elasticsearch
+  - job: Release
+    displayName: Release Elasticsearch
     steps:
     - task: Docker@2
       inputs:
         command: push
-        repository: "$(REGISTRY_NAME)/$(IMAGE_REPOSITORY)"
+        repository: "$(REGISTRY_NAME)/$(IMAGE)"
         tags: |
           $(tag)
 
