@@ -16,7 +16,7 @@ stages:
 - stage: Build
   displayName: Build
   jobs:
-  - job: "Build"
+  - job: Build
     displayName: "Build Elasticsearch"
     steps:
     - task: Docker@2
@@ -29,7 +29,7 @@ stages:
           $(TAG)
 
 - stage: 
-  dependsOn: Build
+  dependsOn: Push
   jobs:
   - job: Push
     displayName: Push Elasticsearch
