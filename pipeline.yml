@@ -47,7 +47,7 @@ stages:
         backendAzureRmResourceGroupName: 'ai2c-cohort-04-rocket-chat-resource-group'
         backendAzureRmStorageAccountName: 'ai2ccohort04rcmsa'
         backendAzureRmContainerName: 'ai2c-cohort-04-rocket-chat-storage-container'
-        backendAzureRmKey: 'terraform/terraform.tfstate'
+        backendAzureRmKey: 'terraform.tfstate'
     - task: TerraformTaskV4@4
       displayName: Plan
       inputs:
