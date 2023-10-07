@@ -21,6 +21,7 @@ stages:
     displayName: Build Elasticsearch
     steps:
     - task: Docker@2
+      displayName: Build Elasticsearch
       inputs:
         command: buildAndPush
         repository: $(imageRepository)
@@ -36,18 +37,24 @@ stages:
   - job: Deploy
     displayName: Deploy Elasticsearch
     steps:
-    - script: |
-        #!/bin/bash
-        set -e
-        cd TerraformFolder # Path to your Terraform configuration
-        
-        # Authenticate to Azure
-        az login --service-principal -u $(servicePrincipalId) -p $(servicePrincipalKey) --tenant $(tenantId)
-        az account set --subscription $(subscriptionId)
-
-        # Initialize Terraform
-        terraform init
-
-        # Apply Terraform changes
-        terraform apply -auto-approve
-      displayName: Deploy
+    - task: TerraformTaskV4@4
+      displayName: Terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'Personal(449b777a-56a9-4ce8-853d-7cd824d7118f)'
+        backendAzureRmResourceGroupName: 'ai2c-cohort-04-rocket-chat-resource-group'
+        backendAzureRmStorageAccountName: 'ai2ccohort04rcmsa'
+        backendAzureRmContainerName: 'ai2c-cohort-04-rocket-chat-storage-container'
+        backendAzureRmKey: 'terraform/terraform.tfstate'
+    - task: TerraformTaskV4@4
+      displayName: Terraform Plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        environmentServiceNameAzureRM: 'Personal(449b777a-56a9-4ce8-853d-7cd824d7118f)'
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        environmentServiceNameAzureRM: 'Personal(449b777a-56a9-4ce8-853d-7cd824d7118f)'
