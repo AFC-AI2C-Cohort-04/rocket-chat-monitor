@@ -24,8 +24,7 @@ stages:
         repository: "$(IMAGE)"
         dockerfile: "$(DOCKERFILE)"
         containerRegistry: "$(REGISTRY_NAME)"
-        tags: |
-          "latest"
+        tags: "latest"
 
 - stage: Release
   displayName: Release
@@ -38,8 +37,7 @@ stages:
       inputs:
         command: push
         repository: "$(REGISTRY_NAME)/$(IMAGE)"
-        tags: |
-          "latest"
+        tags: "latest"
 
 - stage: Deploy
   displayName: Deploy
