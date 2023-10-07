@@ -25,7 +25,7 @@ stages:
         repository: "$(IMAGE)"
         containerRegistry: "$(REGISTRY_NAME)"
         tags: |
-          "latest"
+          "$(Build.BuildId)"
 
 - stage: Release
   displayName: Release
@@ -40,7 +40,7 @@ stages:
         repository: "$(IMAGE)"
         containerRegistry: "$(REGISTRY_NAME)"
         tags: |
-          "latest"
+          "$(Build.BuildId)"
 
 - stage: Deploy
   displayName: Deploy
