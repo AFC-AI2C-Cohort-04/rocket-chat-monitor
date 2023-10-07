@@ -41,6 +41,11 @@ stages:
       displayName: Install Terraform
       inputs:
         terraformVersion: 'latest'
+    - task: CmdLine@2
+      inputs:
+        script: |
+          echo "$(System.DefaultDirectory)"
+          ls -al
     - task: TerraformTaskV4@4
       displayName: Init
       inputs:
