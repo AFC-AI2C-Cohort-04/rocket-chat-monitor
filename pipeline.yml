@@ -22,31 +22,16 @@ stages:
     steps:
     - task: Docker@2
       inputs:
-        command: build
+        command: buildAndPush
         repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
 
-- stage: Release
-  displayName: Release
-  dependsOn: Build
-  jobs:
-  - job: Release
-    displayName: Release Elasticsearch
-    steps:
-    - task: Docker@2
-      inputs:
-        command: push
-        repository: $(imageRepository)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
-
 - stage: Deploy
   displayName: Deploy
-  dependsOn: Release
+  dependsOn: Build
   jobs:
   - job: Deploy
     displayName: Deploy Elasticsearch
