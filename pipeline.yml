@@ -38,7 +38,7 @@ stages:
     displayName: Deploy Elasticsearch
     steps:
     - task: TerraformTaskV4@4
-      displayName: Terraform Init
+      displayName: Init
       inputs:
         provider: 'azurerm'
         command: 'init'
@@ -48,12 +48,13 @@ stages:
         backendAzureRmContainerName: 'ai2c-cohort-04-rocket-chat-storage-container'
         backendAzureRmKey: 'terraform/terraform.tfstate'
     - task: TerraformTaskV4@4
-      displayName: Terraform Plan
+      displayName: Plan
       inputs:
         provider: 'azurerm'
         command: 'plan'
         environmentServiceNameAzureRM: 'Personal(449b777a-56a9-4ce8-853d-7cd824d7118f)'
     - task: TerraformTaskV4@4
+      displayName: Apply
       inputs:
         provider: 'azurerm'
         command: 'apply'
