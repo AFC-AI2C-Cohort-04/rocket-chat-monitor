@@ -13,7 +13,7 @@ variable "resource_group" {
 }
 
 variable "container_registry" {
-  type        = stribg
+  type        = string
   default     = "ai2ccohort04rcmregistry"
 }
 
