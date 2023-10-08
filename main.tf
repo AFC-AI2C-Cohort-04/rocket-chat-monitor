@@ -12,17 +12,14 @@ variable "resource_group" {
   default     = "rocket-chat-containers-resource-group"
 }
 
+variable "container_registry" {
+  type        = stribg
+  default     = "ai2ccohort04rcmregistry"
+}
+
 resource "azurerm_resource_group" "resource_group" {
   location = var.region
   name     = var.resource_group
-}
-
-resource "azurerm_container_registry" "container_registry" {
-  name                     = "ai2ccohort04rcmregistry"
-  location                 = var.region
-  resource_group_name      = var.resource_group
-  sku                      = "Standard"
-  admin_enabled            = true
 }
 
 resource "azurerm_container_group" "container_group" {
@@ -33,7 +30,7 @@ resource "azurerm_container_group" "container_group" {
 
   container {
     name   = "elasticsearch"
-    image  = "${azurerm_container_registry.container_registry.login_server}/elasticsearch:39"
+    image  = "${var.container_registry}/elasticsearch:39"
     cpu    = "0.5"
     memory = "1.5"
   }
