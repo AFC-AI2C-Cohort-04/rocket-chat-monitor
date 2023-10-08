@@ -17,11 +17,6 @@ variable "container_registry" {
   default     = "ai2ccohort04rcmregistry"
 }
 
-resource "azurerm_resource_group" "resource_group" {
-  location = var.region
-  name     = var.resource_group
-}
-
 resource "azurerm_container_group" "container_group" {
   name                = "rocket-chat-container-group"
   location            = var.region
