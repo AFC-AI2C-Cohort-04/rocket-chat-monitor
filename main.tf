@@ -28,6 +28,10 @@ resource "azurerm_container_group" "container_group" {
     image  = "${var.container_registry}/elasticsearch:39"
     cpu    = "0.5"
     memory = "1.5"
+    ports {
+      port     = 9200
+      protocol = "TCP"
+    }
   }
 
   tags = {
