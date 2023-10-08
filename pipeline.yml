@@ -6,12 +6,12 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: "230daf6a-03de-4123-9ebd-d342ba614a90"
-  imageRepository: "elasticsearch"
-  containerRegistry: "ai2ccohort04rcmregistry.azurecr.io"
-  dockerfilePath: "$(Build.SourcesDirectory)/elasticsearch/Dockerfile"
-  tag: "$(Build.BuildId)"
-  vmImageName: 'ubuntu-latest'
+  dockerRegistryServiceConnection: 230daf6a-03de-4123-9ebd-d342ba614a90
+  imageRepository: elasticsearch
+  containerRegistry: ai2ccohort04rcmregistry.azurecr.io
+  dockerfilePath: $(Build.SourcesDirectory)/elasticsearch/Dockerfile
+  tag: $(Build.BuildId)
+  vmImageName: ubuntu-latest
 
 stages:
 - stage: Build
@@ -40,30 +40,27 @@ stages:
     - task: TerraformInstaller@1
       displayName: Install Terraform
       inputs:
-        terraformVersion: 'latest'
+        terraformVersion: 1.0.0
     - task: TerraformTaskV4@4
       displayName: Init
       inputs:
-        provider: 'azurerm'
-        command: 'init'
-        workingDirectory: $(System.DefaultDirectory)
+        provider: azurerm
+        command: init
         backendServiceArm: 'Personal(449b777a-56a9-4ce8-853d-7cd824d7118f)'
-        backendAzureRmResourceGroupName: 'ai2c-cohort-04-rocket-chat-resource-group'
-        backendAzureRmStorageAccountName: 'ai2ccohort04rcmsa'
-        backendAzureRmContainerName: 'ai2c-cohort-04-rocket-chat-storage-container'
-        backendAzureRmKey: 'terraform.tfstate'
+        backendAzureRmResourceGroupName: ai2c-cohort-04-rocket-chat-resource-group
+        backendAzureRmStorageAccountName: ai2ccohort04rcmsa
+        backendAzureRmContainerName: ai2c-cohort-04-rocket-chat-storage-container
+        backendAzureRmKey: terraform.tfstate
     - task: TerraformTaskV4@4
       displayName: Plan
       inputs:
-        provider: 'azurerm'
-        command: 'plan'
-        workingDirectory: $(System.DefaultWorkingDirectory)
+        provider: azurerm
+        command: plan
         environmentServiceNameAzureRM: 'Personal(449b777a-56a9-4ce8-853d-7cd824d7118f)'
     - task: TerraformTaskV4@4
       displayName: Apply
       inputs:
-        provider: 'azurerm'
-        command: 'apply'
-        workingDirectory: $(System.DefaultWorkingDirectory)
+        provider: azurerm
+        command: apply
         environmentServiceNameAzureRM: 'Personal(449b777a-56a9-4ce8-853d-7cd824d7118f)'
     
