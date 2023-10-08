@@ -18,7 +18,7 @@ resource "azurerm_resource_group" "resource_group" {
 }
 
 resource "azurerm_container_registry" "container_registry" {
-  name                     = "ai2ccohort04rcmregistry.azurecr.io"
+  name                     = "ai2ccohort04rcmregistry"
   location                 = var.region
   resource_group_name      = var.resource_group
   sku                      = "Standard"
