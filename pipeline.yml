@@ -41,13 +41,6 @@ stages:
       displayName: Install Terraform
       inputs:
         terraformVersion: 'latest'
-    - task: CmdLine@2
-      displayName: Troubleshoot
-      inputs:
-        script: |
-          echo $PATH
-          pwd
-          ls -al
     - task: TerraformTaskV4@4
       displayName: Initialize Terraform
       inputs:
